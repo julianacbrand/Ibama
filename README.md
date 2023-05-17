@@ -24,6 +24,10 @@ library(dplyr)
 library(ggplot2)
 library(stringr)
 library(writexl)
+library(hrbrthemes)
+library(kableExtra)
+library(scales)
+options(knitr.table.format = "html")
 #3. setar diretorio
 #nao esquecer de trocar a '\' por '/'
 setwd('<coloque_o_caminho_do_diretorio>')
@@ -39,21 +43,51 @@ glimpse(empresas_ibama)
 #visualizar recortes da base
 head(empresas_ibama, 50#equivale ao numero linhas visualizadas
      ) %>% view()
+#  Categoria de Atividade
 
-# Categoria de Atividades
-
-library(scales)
 
 categoria_atividades <- (empresas_ibama$`Categoria de Atividade`)
 
 categoria_atividades
+
 
 summary(categoria_atividades)
 
 tabela1 <- empresas_ibama %>%
   #agrupar por categoria de atividade
   group_by(`Categoria de Atividade`) %>% 
-  #contando o numero de cnpjs por categoria de atividades
+  #contando o numero de cnpjs por categoria
   summarise(qte_empresas = n()) %>% 
   #para ver a tabela no editor
   view
+
+
+
+periodo_de_analise <- empresas_ibama$Ano
+
+summary(periodo_de_analise)
+
+
+# Barplot detalhamento de atividades
+tabela1 %>%
+  filter(!is.na(Detalhe)) %>%
+  arrange(qte_empresas) %>%
+  tail(20) %>%
+  mutate(Detalhe=factor(Detalhe, Detalhe)) %>%
+  ggplot( aes(x=Detalhe, y=qte_empresas) ) +
+  geom_bar(stat="identity", fill="#69b3a2") +
+  coord_flip() +
+  theme_ipsum() +
+  theme(
+    panel.grid.minor.y = element_blank(),
+    panel.grid.major.y = element_blank(),
+    legend.position="none"
+  ) +
+  xlab("") +
+  ylab("Número de empresas por detalhamento de atividade")
+
+
+
+
+
+  
