@@ -85,6 +85,60 @@ tabela1 %>%
   ) +
   xlab("") +
   ylab("Número de empresas por detalhamento de atividade")
+  
+  # Renomeando as linhas
+
+# create a dataframe
+
+
+# display the dataframe
+tabela1_df = data.frame(
+  "Detalhe"= c("Importação ou exportação de fauna nativa brasileira",
+               "comércio de peixes ornamentais","Importação ou exportação de flora nativa brasileira",
+               "Exploração de recursos aquáticos vivos","Importação ou exportação de fauna exótica",
+               "importação ou exportação de fauna silvestre exótica",
+               "Serraria e desdobramento de madeira","Exploração econômica da madeira ou lenha e subprodutos florestais (floresta nativa)",
+               "Utilização do patrimônio genético natural",
+               "Atividade de criação e exploração econômica de fauna exótica e de fauna silvestre ",
+               "Fabricação de estruturas de madeira e de móveis",
+               "Fabricação de chapas, placas de madeira aglomerada, prensada e compensada",
+               "Produção de óleos, gorduras, ceras, vegetais e animais",
+               "comércio de partes produtos e subprodutos","Exploração de recursos aquáticos vivos ",
+               "Exploração econômica da madeira ou lenha e subprodutos florestais ","produtos alimentares"),
+  "Empresas"= c(4448,3812,2499,2335,985,665,523,405,373,294,182,138,110,109,87,74,57))
+
+# display the dataframe
+print(tabela1_df)
+
+# rename dataframe rows
+rownames(tabela1_df) <- c("Importação ou exportação de fauna nativa brasileira","comércio de peixes ornamentais","Importação ou exportação de flora nativa brasileira",
+                          "Exploração de recursos aquáticos vivos","Importação ou exportação de fauna exótica","importação ou exportação de fauna silvestre exótica",
+                          "Serraria e desdobramento de madeira","Exploração econômica da madeira ou lenha e subprodutos florestais (floresta nativa)",
+                          "Utilização do patrimônio genético natural","Atividade de criação e exploração econômica de fauna exótica e de fauna silvestre ","Fabricação de estruturas de madeira e de móveis",
+                          "Fabricação de chapas, placas de madeira aglomerada, prensada e compensada","Produção de óleos, gorduras, ceras, vegetais e animais",
+                          "comércio de partes produtos e subprodutos","Exploração de recursos aquáticos vivos ","Exploração econômica da madeira ou lenha e subprodutos florestais ","produtos alimentares")
+# display the dataframe
+print(tabela1_df)
+
+
+# Barplot detalhamento de atividades
+tabela1_df %>%
+  filter(!is.na(Detalhe)) %>%
+  arrange(Empresas) %>%
+  tail(20) %>%
+  mutate(Detalhe=factor(Detalhe, Detalhe)) %>%
+  ggplot( aes(x=Detalhe, y=Empresas) ) +
+  geom_bar(stat="identity", fill="#69b3a2") +
+  coord_flip() +
+  theme_ipsum() +
+  theme(
+    panel.grid.minor.y = element_blank(),
+    panel.grid.major.y = element_blank(),
+    legend.position="none"
+  ) +
+  xlab("") +
+  ylab("Número de empresas por detalhamento de atividade")
+
 
 
 
