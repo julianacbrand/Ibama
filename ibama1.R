@@ -129,6 +129,41 @@ tabela1_df %>%
 
 summary(tabela1_df$Empresas)
 
+#Gráfico 2 de categoria de atividades
+
+library(dplyr)
+
+
+# Create Data
+tabela_categoria <- empresas_ibama %>%
+  #agrupar por categoria de atividade
+  group_by(`Categoria de Atividade`,`Detalhe`) %>% 
+  #contando o numero de cnpjs por categoria
+  summarise(Empresas = n()) %>% 
+  #para ver a tabela no editor
+  view
+
+#Categoria de atividades grafico pizza
+
+data_frame_categoria <- data.frame(categoria = categoria_atividade[1:10],
+                         empresas = c(15481,1018,850,160,124,27,20,7,7,5))
+print("Categoria de Atividade")
+print(data_frame_categoria)
+sum_of_obsrv <- 17699 
+
+
+# computing the pie chart 
+pie_chart <- ggplot(data_frame_categoria, aes(x="", y=  empresas, fill=categoria)) +
+  geom_bar(width = 2, stat = "identity") +
+  coord_polar("y", start=0) +
+  geom_text(aes(y = empresas/2 + c(0, cumsum(empresas)[-length(empresas)]),
+                label = percent(empresas/sum_of_obsrv )), size=6)
+# printing the percentage
+print(pie_chart)
+
+
+
+
 #criar tabela de categorias no R para salvar no excel
 write_xlsx(#inserir nome do arquivo no r que vai ser salvo
   tabela1,
